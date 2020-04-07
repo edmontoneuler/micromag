@@ -1,0 +1,12 @@
+# The purpose of this repository is to store scripts, not data, so we 
+# don't want any .ovf of .csv files being committed.
+
+**/*.csv
+
+**/*.ovf
+
+**/table.txt
+
+**/gui
+
+**/log.txt
