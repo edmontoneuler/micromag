@@ -2,11 +2,9 @@
 # don't want any .ovf of .csv files being committed.
 
 **/*.csv
-
 **/*.ovf
-
 **/table.txt
-
 **/gui
-
 **/log.txt
+**/references.bib
+
