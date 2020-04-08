@@ -1,0 +1,40 @@
+// Geometry is that of a
+
+Nx:=256
+Ny:=128
+
+SetGridsize(Nx, Ny, 1)
+SetCellsize(2e-6/Nx, 1e-6/Ny, 20e-9)
+
+// permalloy parameters
+Msat = 8.0e5
+Aex = 1.3e-11
+Ku1 = 5.0e2 
+AnisU = vector(1,0.001,0) // easy axis nominally parallel to the long edge
+
+// hysteresis sweep
+Bmax := 75e-3
+Bstep := 1.0e-3
+TableAdd(B_ext)
+
+// virgin curve
+for B:=0.0; B<=Bmax; B+=Bstep{
+    B_ext = vector(B, 0, 0)
+    minimize()    // small changes are better handled by minimize()
+    tablesave()
+}
+
+// sweep down
+for B:=Bmax; B>=-Bmax; B-=Bstep{
+    B_ext = vector(B, 0, 0)
+    minimize()    // small changes are better handled by minimize()
+    tablesave()
+}
+
+// sweep up
+for B:=-Bmax; B<=Bmax; B+=Bstep{
+    B_ext = vector(B, 0, 0)
+    minimize()    // small changes are better handled by minimize()
+    tablesave()
+}
+
