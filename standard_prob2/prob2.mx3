@@ -1,9 +1,9 @@
-// Mst and Aex should not matter
+// Msat and Aex should not matter
 Msat = 1000e3
 Aex = 10e-12
 
 //exchange length 
-lex := sqrt(Aex.getRegion(0) / (0.5 + mu0 * pow(Mst.GetRegion(0), 2)))
+lex := sqrt(Aex.getRegion(0) / (0.5 + mu0 * pow(Msat.GetRegion(0), 2)))
 
 mx := m.comp(0)
 my := m.comp(1)
