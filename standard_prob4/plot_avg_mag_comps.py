@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-data = np.loadtxt('table.txt')
+data = np.loadtxt('field1_table.txt')
 
 t = data[:, 0]
 mx = data[:, 1]
