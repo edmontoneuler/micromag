@@ -3,7 +3,7 @@ import numpy as np
 
 """Loading Data"""
 
-data = np.loadtxt('spatial_mag_data.csv', delimiter = ',')
+data = np.loadtxt('field1_spatial_mag_data.csv', delimiter = ',')
 triple_Ny, Nx = np.shape(data) # Number of points along X and Y directions
 Ny = int(triple_Ny/3)
 
