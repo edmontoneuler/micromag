@@ -1,7 +1,5 @@
-// Geometry is that of a
-
-Nx:=256
-Ny:=128
+Nx:=512
+Ny:=256
 
 SetGridsize(Nx, Ny, 1)
 SetCellsize(2e-6/Nx, 1e-6/Ny, 20e-9)
@@ -11,30 +9,79 @@ Msat = 8.0e5
 Aex = 1.3e-11
 Ku1 = 5.0e2 
 AnisU = vector(1,0.001,0) // easy axis nominally parallel to the long edge
+// alpha = 0.05             // for thermal field
+// Temp = 300              // Temperature
 
 // hysteresis sweep
 Bmax := 75e-3
 Bstep := 1.0e-3
 TableAdd(B_ext)
 
+m = vortex(1, 1).add(0.9, randommag())
+
+save(m) // initial configuration
+
 // virgin curve
 for B:=0.0; B<=Bmax; B+=Bstep{
-    B_ext = vector(B, 0, 0)
-    minimize()    // small changes are better handled by minimize()
+    //B_ext = vector(B, 0, 0)
+    B_ext = vector(0, B, 0)
+    relax()
     tablesave()
+    
+    // thermal fluctuations
+    //run(5e-10)
 }
+
+save(m) // saturated magnetization 
 
 // sweep down
-for B:=Bmax; B>=-Bmax; B-=Bstep{
-    B_ext = vector(B, 0, 0)
-    minimize()    // small changes are better handled by minimize()
+for B:=Bmax; B>=0; B-=Bstep{
+    // B_ext = vector(B, 0, 0)
+    B_ext = vector(0, B, 0)
+    relax()
     tablesave()
+
+    // thermal fluctuations
+    // run(5e-10)
 }
 
-// sweep up
-for B:=-Bmax; B<=Bmax; B+=Bstep{
-    B_ext = vector(B, 0, 0)
-    minimize()    // small changes are better handled by minimize()
+save(m)  // magnetization at zero field (down sweep)
+
+for B:=0.0; B>=-Bmax; B-=Bstep{
+    // B_ext = vector(B, 0, 0)
+    B_ext = vector(0, B, 0)
+    relax()
     tablesave()
+
+    // thermal fluctuations
+    // B_ext = vector(0, 0, 0)
+    // run(5e-10)
+}
+
+save(m) // saturated magnetization (negative direction)
+
+// sweep up
+for B:=-Bmax; B<=0; B+=Bstep{
+    // B_ext = vector(B, 0, 0)
+    B_ext = vector(0, B, 0)
+    relax()
+    tablesave()
+
+    // thermal fluctuations
+    // run(5e-10)
+
+}
+
+save(m) // magnetization at zero field (up sweep)
+
+for B:=0.0; B<=Bmax; B+=Bstep{
+    // B_ext = vector(B, 0, 0)
+    B_ext = vector(0, B, 0)
+    relax()
+    tablesave()
+
+    // thermal fluctuations
+    // run(5e-10)
+
 }
 
