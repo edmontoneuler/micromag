@@ -1,0 +1,32 @@
+N := 16
+setGridSize(N, N, N)
+setCellSize(1e-9, 1e-9, 1e-9)
+
+Msat = 500e3 // Msat and Aex should not matter 
+Aex = 20e-12
+
+Ms := Msat.GetRegion(0)
+A := Aex.getRegion(0)
+Km := 0.5 * mu0 * Ms * Ms
+lex := sqrt(A / Km)
+AnisU = Vector(0, 0.001, 1)
+Ku1 = 0.1 * Km
+
+// Loop over randomized initial configurations
+for count := 1; count<=3000; count+=1{
+    
+    L:= 7.5 + 1.5*rand() // Random size between 7.5 and 9
+    c := L*lex/N
+    setCellSize(c, c, c)
+ 
+    // m = randomMag() // Finds 'flower' and 'twisted flower' states
+    
+    
+    m = TwoDomain(0, 0, 1,  0, 1, 0, 0, 0, -1) // finds vortex states
+    minimize()
+
+    m_:= m.Average()
+
+    fprintln("result.txt", L,  m_.X(), m_.Y(), m_.Z(), E_total.Get())
+}
+

@@ -12,13 +12,41 @@ lex := sqrt(A / Km)
 AnisU = Vector(0, 0, 1)
 Ku1 = 0.1 * Km
 
+
 // scan edge length L
 for L := 8.0; L<=9.0; L+=0.02{
+  
     c := L*lex/N
-    setCellSize(c, c, c)
-    mloadFile("std3-flower.ovf") // load initial state
+    setCellSize(c, c, c)    
     V := pow(c*N, 3)
+
+    m.loadFile("flower.ovf") // load initial state
     relax()
     m_:= m.Average()
-    fprintln("result.txt, L, m_.X(), m_.Y(), m_.Z(), E_total.Get(), E_exch.Get(), E_demag.Get(), E_anis.get(), Km, V)
+    fprintln("flower.txt", L, m_.X(), m_.Y(), m_.Z(), E_total.Get(), E_exch.Get(), E_demag.Get(), E_anis.get(), Km, V)
 }
+
+for L := 8.0; L<=9.0; L+=0.02{
+  
+    c := L*lex/N
+    setCellSize(c, c, c)    
+    V := pow(c*N, 3)
+
+    m.loadFile("twisted_flower.ovf") // load initial state
+    relax()
+    m_:= m.Average()
+    fprintln("twisted_flower.txt", L, m_.X(), m_.Y(), m_.Z(), E_total.Get(), E_exch.Get(), E_demag.Get(), E_anis.get(), Km, V)
+}
+
+for L := 8.0; L<=9.0; L+=0.02{
+  
+    c := L*lex/N
+    setCellSize(c, c, c)    
+    V := pow(c*N, 3)
+
+    m.loadFile("vortex.ovf") // load initial state
+    relax()
+    m_:= m.Average()
+    fprintln("vortex.txt", L, m_.X(), m_.Y(), m_.Z(), E_total.Get(), E_exch.Get(), E_demag.Get(), E_anis.get(), Km, V)
+}
+

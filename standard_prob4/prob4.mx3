@@ -12,8 +12,9 @@ relax()
 
 tableautosave(5e-12)
 
-B_ext = vector(-24.6E-3, 4.3E-3, 0)
-mx := m.comp()
+// B_ext = vector(-24.6E-3, 4.3E-3, 0) // Field 1
+B_ext = vector(-35.5E-3, -6.3E-3, 0) // Field 2 
+mx := m.comp(0)
 runWhile(mx.average() >0)
 save(m)
 run(1e-9)
