@@ -1,0 +1,44 @@
+N := 16
+setGridSize(N, N, N)
+setCellSize(1e-9, 1e-9, 1e-9)
+
+Msat = 500e3
+Aex = 20e-12
+
+Ms := Msat.GetRegion(0)
+A := Aex.getRegion(0)
+Km := 0.5 * mu0 * Ms * Ms
+lex := sqrt(A / Km)
+AnisU = Vector(0, 0.001, 1)
+Ku1 = 0.1 * Km
+
+// Flower State
+L := 8.0
+c := L*lex/N
+setCellSize(c, c, c)
+m = randomMag() 
+relax()
+SaveAs(m, "flower.ovf") 
+m_:= m.Average()
+print(m_.X(), m_.Y(), m_.Z())
+ 
+// Twisted Flower State
+L = 8.3
+c = L*lex/N
+setCellSize(c, c, c)
+m = randomMag() 
+relax()
+SaveAs(m, "twisted_flower.ovf") 
+m_= m.Average()
+print(m_.X(), m_.Y(), m_.Z())
+ 
+// Vortex State
+L = 8.8
+c = L*lex/N
+setCellSize(c, c, c)
+m = TwoDomain(0, 0, 1,  0, 1, 0, 0, 0, -1)
+relax()
+SaveAs(m, "vortex.ovf") 
+m_= m.Average()
+print(m_.X(), m_.Y(), m_.Z())
+
