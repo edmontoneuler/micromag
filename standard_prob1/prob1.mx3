@@ -9,8 +9,6 @@ Msat = 8.0e5
 Aex = 1.3e-11
 Ku1 = 5.0e2 
 AnisU = vector(1,0.001,0) // easy axis nominally parallel to the long edge
-// alpha = 0.05             // for thermal field
-// Temp = 300              // Temperature
 
 // hysteresis sweep
 Bmax := 75e-3
@@ -19,69 +17,51 @@ TableAdd(B_ext)
 
 m = vortex(1, 1).add(0.9, randommag())
 
-save(m) // initial configuration
+SaveAs(m, "inital.ovf") // initial configuration
 
 // virgin curve
 for B:=0.0; B<=Bmax; B+=Bstep{
-    //B_ext = vector(B, 0, 0)
-    B_ext = vector(0, B, 0)
+    B_ext = vector(B, 0, 0)
+    // B_ext = vector(0, B, 0)
     relax()
     tablesave()
-    
-    // thermal fluctuations
-    //run(5e-10)
 }
 
-save(m) // saturated magnetization 
+SaveAs(m, "sat_plus.ovf") // saturated magnetization 
 
 // sweep down
 for B:=Bmax; B>=0; B-=Bstep{
-    // B_ext = vector(B, 0, 0)
-    B_ext = vector(0, B, 0)
+    B_ext = vector(B, 0, 0)
+    // B_ext = vector(0, B, 0)
     relax()
     tablesave()
-
-    // thermal fluctuations
-    // run(5e-10)
 }
 
-save(m)  // magnetization at zero field (down sweep)
+SaveAs(m, "zero_plus.ovf")  // magnetization at zero field (after positive saturation)
 
 for B:=0.0; B>=-Bmax; B-=Bstep{
-    // B_ext = vector(B, 0, 0)
-    B_ext = vector(0, B, 0)
+    B_ext = vector(B, 0, 0)
+    // B_ext = vector(0, B, 0)
     relax()
     tablesave()
-
-    // thermal fluctuations
-    // B_ext = vector(0, 0, 0)
-    // run(5e-10)
 }
 
-save(m) // saturated magnetization (negative direction)
+SaveAs(m, "sat_minus.ovf") // saturated magnetization (negative direction)
 
 // sweep up
 for B:=-Bmax; B<=0; B+=Bstep{
-    // B_ext = vector(B, 0, 0)
-    B_ext = vector(0, B, 0)
+    B_ext = vector(B, 0, 0)
+    // B_ext = vector(0, B, 0)
     relax()
     tablesave()
-
-    // thermal fluctuations
-    // run(5e-10)
-
 }
 
-save(m) // magnetization at zero field (up sweep)
+SaveAs(m, "zero_minus.ovf") // magnetization at zero field (after negative saturation)
 
 for B:=0.0; B<=Bmax; B+=Bstep{
-    // B_ext = vector(B, 0, 0)
-    B_ext = vector(0, B, 0)
+    B_ext = vector(B, 0, 0)
+    // B_ext = vector(0, B, 0)
     relax()
     tablesave()
-
-    // thermal fluctuations
-    // run(5e-10)
-
 }
 
