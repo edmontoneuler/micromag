@@ -1,7 +1,5 @@
-// Geometry is that of a
-
-Nx:=256
-Ny:=128
+Nx:=512
+Ny:=256
 
 SetGridsize(Nx, Ny, 1)
 SetCellsize(2e-6/Nx, 1e-6/Ny, 20e-9)
@@ -17,24 +15,53 @@ Bmax := 75e-3
 Bstep := 1.0e-3
 TableAdd(B_ext)
 
+m = vortex(1, 1).add(0.9, randommag())
+
+SaveAs(m, "inital.ovf") // initial configuration
+
 // virgin curve
 for B:=0.0; B<=Bmax; B+=Bstep{
     B_ext = vector(B, 0, 0)
-    minimize()    // small changes are better handled by minimize()
+    // B_ext = vector(0, B, 0)
+    relax()
     tablesave()
 }
+
+SaveAs(m, "sat_plus.ovf") // saturated magnetization 
 
 // sweep down
-for B:=Bmax; B>=-Bmax; B-=Bstep{
+for B:=Bmax; B>=0; B-=Bstep{
     B_ext = vector(B, 0, 0)
-    minimize()    // small changes are better handled by minimize()
+    // B_ext = vector(0, B, 0)
+    relax()
     tablesave()
 }
 
-// sweep up
-for B:=-Bmax; B<=Bmax; B+=Bstep{
+SaveAs(m, "zero_plus.ovf")  // magnetization at zero field (after positive saturation)
+
+for B:=0.0; B>=-Bmax; B-=Bstep{
     B_ext = vector(B, 0, 0)
-    minimize()    // small changes are better handled by minimize()
+    // B_ext = vector(0, B, 0)
+    relax()
+    tablesave()
+}
+
+SaveAs(m, "sat_minus.ovf") // saturated magnetization (negative direction)
+
+// sweep up
+for B:=-Bmax; B<=0; B+=Bstep{
+    B_ext = vector(B, 0, 0)
+    // B_ext = vector(0, B, 0)
+    relax()
+    tablesave()
+}
+
+SaveAs(m, "zero_minus.ovf") // magnetization at zero field (after negative saturation)
+
+for B:=0.0; B<=Bmax; B+=Bstep{
+    B_ext = vector(B, 0, 0)
+    // B_ext = vector(0, B, 0)
+    relax()
     tablesave()
 }
 
