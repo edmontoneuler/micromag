@@ -1,6 +1,21 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+def load_sp4_scalar_data(filename='field1_table.txt'):
+    """
+    Returns the spatially averaged magnetization 
+    components as functions of time
+    """
+
+    data = np.loadtxt(filename)
+
+    t = data[:, 0]
+    mx = data[:, 1]
+    my = data[:, 2]
+    mz = data[:, 3]
+
+    return t, mx, my, mz
+
 def load_sp4_spatial_data(filename='field1_spatial_mag_data.csv', thinning=5):
 
     """
@@ -50,6 +65,45 @@ def make_inplane_magplot(X, Y, Mx, My,Mz):
     cbar.set_label('Mz')
     plt.clim(np.min(Mz), np.max(Mz))    
     
+def plot_field1_comps():
+
+    t, mx, my, mz = load_sp4_scalar_data('field1_table.txt')
+
+    plt.figure()
+    plt.plot(t, mx, 'r')
+    plt.plot(t, my, 'g')
+    plt.plot(t, mz, 'b')
+    plt.legend(['Mx', 'My', 'Mz'])
+
+    #External Field Unit Vector
+    plt.axhline(-0.985964, color = 'r', linestyle = '--')
+    plt.axhline(0.172186, color = 'g', linestyle = '--')
+    plt.axhline(0, color = 'b', linestyle = '--')
+
+    plt.xlabel('Time (s)')
+    plt.ylabel('M/Ms')
+    plt.title('Average Magnetization Components')
+    plt.show()
+
+def plot_field2_comps():
+
+    t, mx, my, mz = load_sp4_scalar_data('field2_table.txt')
+
+    plt.figure()
+    plt.plot(t, mx, 'r')
+    plt.plot(t, my, 'g')
+    plt.plot(t, mz, 'b')
+    plt.legend(['Mx', 'My', 'Mz'])
+
+    #External Field Unit Vector
+    plt.axhline(-0.985964, color = 'r', linestyle = '--')
+    plt.axhline(-0.172186, color = 'g', linestyle = '--')
+    plt.axhline(0, color = 'b', linestyle = '--')
+
+    plt.xlabel('Time (s)')
+    plt.ylabel('M/Ms')
+    plt.title('Average Magnetization Components')
+    plt.show()
 
 def plot_field1_spatial_mag():
     X, Y, Mx, My, Mz = load_sp4_spatial_data('field1_spatial_mag_data.csv')
@@ -63,6 +117,9 @@ def plot_field2_spatial_mag():
     plt.title('Magnetization at Reversal: Field 2')
     plt.show()
 
+
 if __name__ == "__main__":
+    plot_field1_comps()
+    plot_field2_comps()
     plot_field1_spatial_mag()
     plot_field2_spatial_mag()
